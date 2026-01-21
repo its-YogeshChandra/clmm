@@ -21,6 +21,7 @@ pub mod clmm {
     }
 }
 
+//include ticks 
 #[account]
 #[derive(InitSpace)]
 pub struct LpPoolStateShape {
@@ -34,6 +35,51 @@ pub struct LpPoolStateShape {
     pub lpmint: Pubkey,
     //bump
     bump: u8,
+
+    //configuration 
+    tick_spacing : u16,
+    fee_rate: u32,
+
+    //current state
+    sqrt_price_x64: u128,
+    tick_current: i32,
+    liquidity: u128,
+
+   //fee tracking
+    fee_growth_global_0:u128,
+    fee_growth_global_1: u128
+}
+
+//for managing the ticks 
+#[account]
+pub struct TickState {
+    initialized: bool,
+    liquidity_gross: u128,  //total liquidity referencing this 
+    liquidity_net : i128, 
+    fee_growth_outside_0: u128,
+    fee_growth_outside_1: u128
+}
+
+//tick state array 
+#[account]
+pub struct TickArrayState {
+    pool_id: Pubkey,
+    start_tick_index:i32,
+    ticks:[TickState; 60]
+}
+
+//design postions 
+#[account]
+pub struct Position {
+    pool_id : Pubkey,
+    owner: Pubkey,
+    tick_lower: i32,
+    tick_upper: i32,
+    liquidity: u128,
+    fee_growth_inside_0_last: u128,
+    fee_growth_inside_1_last : u128,
+    tokens_owed_0: u64,
+    tokens_owed_1: u64
 }
 
 #[derive(Accounts)]
@@ -139,7 +185,7 @@ pub struct Swap<'info> {
     pub user_output_acccount: InterfaceAccount<'info, TokenAccount>,
 }
 
-//error code for swap
+//error code
 
 //functions for swap
 impl<'info> Swap<'info> {}
