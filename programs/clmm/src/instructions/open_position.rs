@@ -5,8 +5,8 @@ use anchor_spl::{
     token_interface::{self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked},
 };
 
-use crate::states::pool::LpPoolStateShape;
 use crate::states::Position;
+use crate::states::{pool::LpPoolStateShape, TickArrayState};
 
 //files
 #[derive(Accounts)]
@@ -21,7 +21,10 @@ pub struct Open_Position<'info> {
     //pool static
     pub pool_state_account: Account<'info, LpPoolStateShape>,
 
+    //ticks bounds
+    pub tick_upper: Account<'info, TickArrayState>,
+
     //postion
-    #[account(init, payer= signer, space= 8+Position::INIT_SPACE, seeds = [b"position", signer.key().as_ref()], bump)]
+    #[account(init, payer= signer, space= 8+Position::INIT_SPACE, seeds = [b"position", signer.key().as_ref(), pool_state_account.key().as_ref(),], bump)]
     pub position: Account<'info, Position>,
 }
