@@ -6,8 +6,13 @@ use anchor_spl::{
 };
 
 use crate::{
-    libraries::liquidity_math,
-    states::{pool::LpPoolStateShape, position, tick::TickArrayState, Position},
+    libraries::{get_sqrt_price_at_tick, liquidity_math},
+    states::{
+        pool::LpPoolStateShape,
+        position,
+        tick::{self, TickArrayState},
+        Position,
+    },
 };
 
 #[derive(Accounts)]
@@ -64,8 +69,16 @@ impl<'info> IncreaseLiquidity<'info> {
         let lower_position = self.position.tick_lower;
         let upper_position = self.position.tick_upper;
         let liquidity_current = self.position.liquidity;
+        let sqrt_price_lower = get_sqrt_price_at_tick(self.position.tick_lower);
+        let sqrt_price_upper = get_sqrt_price_at_tick(self.position.tick_upper);
+        let sqrt_price_current = self.pool_state_account.sqrt_price_x64;
 
-        //figure the issue
+        //right now just single function will segregate this in future
+        //there are 3 cases
+        //case 1 : current_price is below position range
+        if tick_current < tick_lower {
+            //get liquidity from account 0 function called
+        }
 
         Ok(())
     }

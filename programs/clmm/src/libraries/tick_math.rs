@@ -10,7 +10,7 @@ pub const MIN_SQRT_PRICE_X64: i32 = 4295048016;
 pub const MAX_SQRT_PRICE_X64: i32 = 79226673521066979257578248091;
 
 //the maximum tick
-fn get_sqrt_price_at_tick(tick: i32) -> u128 {
+pub fn get_sqrt_price_at_tick(tick: i32) -> u128 {
     let abs_tick = tick.abs() as u32;
     // require!(
     //     abs_tick <= MAX_TICK as u32,
