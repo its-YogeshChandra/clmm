@@ -1,3 +1,5 @@
+use crate::libraries::liquidity_math;
+
 pub fn get_liquidity_from_amount_0(
     sqrt_price_current: u128,
     sqrt_price_lower: u128,
@@ -30,12 +32,26 @@ pub fn get_liquidity_from_amount_1(
     return liquidity as u128;
 }
 
-fn get_amounts_0_from_liquidity(
+pub fn get_amounts_0_from_liquidity(
     sqrt_price_current: u128,
     sqrt_price_lower: u128,
     sqrt_price_upper: u128,
-    amount_0: u64,
-    amount_1: u64,
+    liquidity: u128,
 ) -> u64 {
-    64 as u64
+    let difference = sqrt_price_upper - sqrt_price_lower;
+
+    let amount_0 = (liquidity * diff * Q64) / (sqrt_price_upper * sqrt_price_lower);
+    return amount_0 as u64;
+}
+
+pub fn get_amounts_1_from_liquidity(
+    sqrt_price_current: u128,
+    sqrt_price_lower: u128,
+    sqrt_price_upper: u128,
+    liquidity: u128,
+) -> u64 {
+    let difference = sqrt_price_upper - sqrt_price_lower;
+
+    let amount_1 = (liquidity * diff) / Q64;
+    return amount_1 as u64;
 }
