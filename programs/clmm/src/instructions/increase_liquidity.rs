@@ -35,6 +35,6 @@ pub struct increase_liquidity<'info> {
     //position
     pub position: Account<'info, Position>,
 
-    //tick
-    pub array: Account<'info, TickArrayState>,
+    //tick array
+    pub tick_array: Account<'info, TickArrayState>,
 }
