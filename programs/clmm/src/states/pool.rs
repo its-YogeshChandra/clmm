@@ -13,18 +13,18 @@ pub struct LpPoolStateShape {
     //mint
     pub lpmint: Pubkey,
     //bump
-    bump: u8,
+    pub bump: u8,
 
     //configuration
-    tick_spacing: u16,
-    fee_rate: u32,
+    pub tick_spacing: u16,
+    pub fee_rate: u32,
 
     //current state
-    sqrt_price_x64: u128,
-    tick_current: i32,
-    liquidity: u128,
+    pub sqrt_price_x64: u128,
+    pub tick_current: i32,
+    pub liquidity: u128,
 
     //fee tracking
-    fee_growth_global_0: u128,
-    fee_growth_global_1: u128,
+    pub fee_growth_global_0: u128,
+    pub fee_growth_global_1: u128,
 }

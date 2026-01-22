@@ -5,7 +5,7 @@ use anchor_spl::{
     token_interface::{self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked},
 };
 
-use crate::states::tick::TickArrayState;
+use crate::states::{tick::TickArrayState, LpPoolStateShape};
 
 #[derive(Accounts)]
 pub struct Swap<'info> {
@@ -14,7 +14,7 @@ pub struct Swap<'info> {
     pub signer: Signer<'info>,
 
     //pool state
-    pub pool_state_account: InterfaceAccount<'info, TokenAccount>,
+    pub pool_state_account: Account<'info, LpPoolStateShape>,
 
     //user accounts
     #[account(mut, token::authority = signer)]
