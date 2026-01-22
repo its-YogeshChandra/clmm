@@ -5,7 +5,7 @@ use anchor_spl::{
     token_interface::{self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked},
 };
 
-use crate::{states::Position, LpPoolStateShape, TickArrayState};
+use crate::{states::pool::LpPoolStateShape, states::tick::TickArrayState, states::Position};
 
 #[derive(Accounts)]
 pub struct decrease_liquidity<'info> {

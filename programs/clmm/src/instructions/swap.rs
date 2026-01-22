@@ -5,7 +5,7 @@ use anchor_spl::{
     token_interface::{self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked},
 };
 
-use crate::TickArrayState;
+use crate::states::tick::TickArrayState;
 
 #[derive(Accounts)]
 pub struct Swap<'info> {

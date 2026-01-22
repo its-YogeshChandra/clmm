@@ -5,8 +5,8 @@ use anchor_spl::{
     token_interface::{self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked},
 };
 
+use crate::states::pool::LpPoolStateShape;
 use crate::states::Position;
-use crate::LpPoolStateShape;
 
 //files
 #[derive(Accounts)]

@@ -1,7 +1,8 @@
 use anchor_lang::prelude::*;
+use bytemuck::Zeroable;
 
 //for managing the ticks
-#[account]
+#[derive(AnchorDeserialize, AnchorSerialize, Clone, Copy, Default, Zeroable)]
 pub struct TickState {
     initialized: bool,
     liquidity_gross: u128, //total liquidity referencing this
@@ -11,7 +12,7 @@ pub struct TickState {
 }
 
 //tick state array
-#[account]
+#[derive(AnchorDeserialize, AnchorSerialize, Clone, Copy)]
 pub struct TickArrayState {
     pool_id: Pubkey,
     start_tick_index: i32,
