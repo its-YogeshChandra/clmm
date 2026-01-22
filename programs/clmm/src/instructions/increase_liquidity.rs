@@ -52,13 +52,20 @@ pub struct IncreaseLiquidity<'info> {
 
 //handle
 impl<'info> IncreaseLiquidity<'info> {
-    pub fn increase_liquidity(self,
+    pub fn increase_liquidity(
+        self,
         liquidity: u128,
         token_0_amount: u64,
         token_1_amount: u64,
     ) -> Result<()> {
-  //read from the accounts 
-        let current_price = self.pool_state_account.lpmint
+        //read from the accounts
+        let current_price = self.pool_state_account.lpmint;
+        let current_tick = self.pool_state_account.tick_current;
+        let lower_position = self.position.tick_lower;
+        let upper_position = self.position.tick_upper;
+        let liquidity_current = self.position.liquidity;
+
+        //figure the issue
 
         Ok(())
     }
