@@ -105,11 +105,41 @@ impl<'info> IncreaseLiquidity<'info> {
             let liquidity_0 =
                 get_liquidity_from_amount_0(sqrt_price_lower, sqrt_price_upper, token_0_amount);
             let liquidity_1 =
-                get_liquidity_from_amount_1(sqrt_price_lower, sqrt_price_upper, token_1_amount);
+                get_liquidity_from_amount_1(sqrt_price_lower, sqrt_price_current, token_1_amount);
             liquidity = min(liquidity_1, liquidity_0);
 
             amount_0 = get_amounts_0_from_liquidity(sqrt_price_lower, sqrt_price_upper, liquidity);
-            amount_1 = get_amounts_1_from_liquidity(sqrt_price_lower, sqrt_price_upper, liquidity);
+            amount_1 =
+                get_amounts_1_from_liquidity(sqrt_price_lower, sqrt_price_current, liquidity);
+
+            //load the tick state from the tick array
+            let tick_lower_state = self.tick_array_lower.load()?;
+            let tick_upper_state = self.tick_array_upper.load()?;
+            let lower_start_index = tick_lower_state.start_tick_index;
+            let upper_start_index = tick_upper_state.start_tick_index;
+
+            //calculate the index in the array
+            let tick_spacing = self.pool_state_account.tick_spacing as i32;
+            let lower_tick_index = (lower_position - lower_start_index) / tick_spacing;
+            let upper_tick_index = (upper_position - upper_start_index) / tick_spacing;
+
+            //get the tick states
+            let lower_tick = tick_lower_state.ticks[lower_tick_index as usize];
+            let upper_tick = tick_upper_state.ticks[upper_tick_index as usize];
+
+            //access the fee growth
+            let fee_growth_global = self.pool_state_account.fee_growth_global_0;
+
+            //get the specific tick from the array
+            //need helper to find tick index within array
+
+            //calculat the fee growth inside for token_0
+            let fee_growth_below_0 = get_fee_growth_below(
+                current_tick,
+                lower_position,
+                fee_growth_global,
+                tick_lower_state,
+            );
         }
 
         //validate liquidity

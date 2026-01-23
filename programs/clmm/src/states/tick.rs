@@ -17,8 +17,8 @@ pub struct TickState {
 #[account(zero_copy(unsafe))]
 #[repr(C, packed)]
 pub struct TickArrayState {
-    pool_id: Pubkey,
-    start_tick_index: i32,
+    pub pool_id: Pubkey,
+    pub start_tick_index: i32,
     pub _padding: [u8; 4],
-    ticks: [TickState; 60],
+    pub ticks: [TickState; 60],
 }
