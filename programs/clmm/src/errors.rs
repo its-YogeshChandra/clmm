@@ -10,4 +10,7 @@ pub enum TickMathError {
 pub enum LiquidityError {
     #[msg("zero Liquidity Error")]
     ZeroLiquidity,
+
+    #[msg("insufficient liquidity")]
+    InsufficientLiquidity,
 }
