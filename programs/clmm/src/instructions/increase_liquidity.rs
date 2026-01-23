@@ -130,15 +130,19 @@ impl<'info> IncreaseLiquidity<'info> {
             //access the fee growth
             let fee_growth_global = self.pool_state_account.fee_growth_global_0;
 
-            //get the specific tick from the array
-            //need helper to find tick index within array
-
             //calculat the fee growth inside for token_0
             let fee_growth_below_0 = get_fee_growth_below(
                 current_tick,
                 lower_position,
                 fee_growth_global,
-                tick_lower_state,
+                lower_tick.fee_growth_outside_0,
+            );
+
+            let fee_growth_above_0 = get_fee_growth_above(
+                current_tick,
+                lower_position,
+                fee_growth_global,
+                lower_tick.fee_growth_outside_0,
             );
         }
 
