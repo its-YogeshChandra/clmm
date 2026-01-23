@@ -170,6 +170,73 @@ impl<'info> DecreaseLiquidity<'info> {
         self.position.fee_growth_inside_0_last = fee_growth_inside_0;
         self.position.fee_growth_inside_1_last = fee_growth_inside_1; //load tick array
 
+        //transfer tokens from vault to user (requires PDA signer)
+        let pool_bump = self.pool_state_account.bump;
+        let token_0_key = self.token_0_mint.key();
+        let token_1_key = self.token_1_mint.key();
+        let seeds: &[&[u8]] = &[
+            b"pool_state_v1",
+            token_0_key.as_ref(),
+            token_1_key.as_ref(),
+            &[pool_bump],
+        ];
+        let signer_seeds = &[seeds];
+
+        // Transfer token0 from vault to user
+        if amount_0 > 0 {
+            let cpi_accounts_0 = TransferChecked {
+                from: self.token_0_vault_account.to_account_info(),
+                to: self.user_token_0_account.to_account_info(),
+                authority: self.pool_state_account.to_account_info(),
+                mint: self.token_0_mint.to_account_info(),
+            };
+            let cpi_ctx_0 = CpiContext::new_with_signer(
+                self.token_program.to_account_info(),
+                cpi_accounts_0,
+                signer_seeds,
+            );
+            token_interface::transfer_checked(cpi_ctx_0, amount_0, self.token_0_mint.decimals)?;
+        }
+
+        // Transfer token1 from vault to user
+        if amount_1 > 0 {
+            let cpi_accounts_1 = TransferChecked {
+                from: self.token_1_vault_account.to_account_info(),
+                to: self.user_token_1_account.to_account_info(),
+                authority: self.pool_state_account.to_account_info(),
+                mint: self.token_1_mint.to_account_info(),
+            };
+            let cpi_ctx_1 = CpiContext::new_with_signer(
+                self.token_program.to_account_info(),
+                cpi_accounts_1,
+                signer_seeds,
+            );
+            token_interface::transfer_checked(cpi_ctx_1, amount_1, self.token_1_mint.decimals)?;
+        }
+
+        // Update tick states (SUBTRACT liquidity)
+        {
+            let mut tick_array_lower_mut = self.tick_array_lower.load_mut()?;
+            let lower_tick_mut = &mut tick_array_lower_mut.ticks[lower_tick_index as usize];
+            lower_tick_mut.liquidity_gross -= liquidity_delta;
+            lower_tick_mut.liquidity_net -= liquidity_delta as i128;
+        }
+
+        {
+            let mut tick_array_upper_mut = self.tick_array_upper.load_mut()?;
+            let upper_tick_mut = &mut tick_array_upper_mut.ticks[upper_tick_index as usize];
+            upper_tick_mut.liquidity_gross -= liquidity_delta;
+            upper_tick_mut.liquidity_net += liquidity_delta as i128; // ADD for upper (opposite of increase)
+        }
+
+        // Update position liquidity
+        self.position.liquidity -= liquidity_delta;
+
+        // Update pool liquidity if position is in range
+        if lower_position <= current_tick && current_tick < upper_position {
+            self.pool_state_account.liquidity -= liquidity_delta;
+        }
+
         Ok(())
     }
 }
