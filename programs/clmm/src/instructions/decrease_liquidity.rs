@@ -34,15 +34,15 @@ pub struct DecreaseLiquidity<'info> {
 
     //user accounts
     #[account(mut, token::mint = token_0_mint, token::authority = signer)]
-    pub user_token_0_account: InterfaceAccount<'info, TokenAccount>,
+    pub user_token_0_account: Box<InterfaceAccount<'info, TokenAccount>>,
     #[account(mut, token::mint = token_1_mint, token::authority = signer)]
-    pub user_token_1_account: InterfaceAccount<'info, TokenAccount>,
+    pub user_token_1_account: Box<InterfaceAccount<'info, TokenAccount>>,
 
     //vaults account
     #[account(mut, token::mint = token_0_mint, token::authority = pool_state_account)]
-    pub token_0_vault_account: InterfaceAccount<'info, TokenAccount>,
+    pub token_0_vault_account: Box<InterfaceAccount<'info, TokenAccount>>,
     #[account(mut, token::mint = token_1_mint, token::authority = pool_state_account)]
-    pub token_1_vault_account: InterfaceAccount<'info, TokenAccount>,
+    pub token_1_vault_account: Box<InterfaceAccount<'info, TokenAccount>>,
 
     //position
     //can pass the constrain this way
