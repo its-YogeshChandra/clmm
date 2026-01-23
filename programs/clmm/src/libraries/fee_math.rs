@@ -1,3 +1,5 @@
+pub const Q64: u128 = 1u128 << u64;
+
 //get the fee growth
 pub fn get_fee_growth_below(
     tick_current: i32,
@@ -105,4 +107,3 @@ pub fn update_position_fees(
     position.fee_growth_inside_0_last = fee_growth_inside_0;
     position.fee_growth_inside_1_last = fee_growth_inside_1;
 }
-

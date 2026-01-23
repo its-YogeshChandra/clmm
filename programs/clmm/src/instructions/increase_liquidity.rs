@@ -10,8 +10,9 @@ use anchor_spl::{
 use crate::errors::LiquidityError;
 use crate::{
     libraries::{
-        get_amounts_0_from_liquidity, get_amounts_1_from_liquidity, get_liquidity_from_amount_0,
-        get_liquidity_from_amount_1, get_sqrt_price_at_tick, liquidity_math,
+        get_amounts_0_from_liquidity, get_amounts_1_from_liquidity, get_fee_growth_above,
+        get_fee_growth_below, get_liquidity_from_amount_0, get_liquidity_from_amount_1,
+        get_sqrt_price_at_tick, liquidity_math,
     },
     states::{
         pool::LpPoolStateShape,

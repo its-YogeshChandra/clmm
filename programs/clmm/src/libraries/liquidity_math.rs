@@ -1,4 +1,4 @@
-use crate::libraries::liquidity_math;
+pub const Q64: u128 = 1u128 << u64;
 
 pub fn get_liquidity_from_amount_0(
     sqrt_price_lower: u128,
@@ -25,7 +25,7 @@ pub fn get_liquidity_from_amount_1(
     let difference = sqrt_price_upper - sqrt_price_lower;
 
     //liquidity
-    let liquidity = (amount_1 * Q64) / difference as u64;
+    let liquidity = (amount_1 as u128 * Q64) / difference as u128;
 
     return liquidity as u128;
 }
