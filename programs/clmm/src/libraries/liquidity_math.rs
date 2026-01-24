@@ -1,4 +1,4 @@
-pub const Q64: u128 = 1u128 << u64;
+pub const Q64: u128 = 1u128 << 64;
 
 pub fn get_liquidity_from_amount_0(
     sqrt_price_lower: u128,
@@ -10,7 +10,7 @@ pub fn get_liquidity_from_amount_0(
     let difference = sqrt_price_upper - sqrt_price_lower;
 
     //liquidity
-    let liquidity = amount * intermediate / difference;
+    let liquidity = (amount_0 as u128) * intermediate / difference;
 
     //return liquidity
     liquidity
@@ -37,7 +37,7 @@ pub fn get_amounts_0_from_liquidity(
 ) -> u64 {
     let difference = sqrt_price_upper - sqrt_price_lower;
 
-    let amount_0 = (liquidity * diff * Q64) / (sqrt_price_upper * sqrt_price_lower);
+    let amount_0 = (liquidity * difference * Q64) / (sqrt_price_upper * sqrt_price_lower);
     return amount_0 as u64;
 }
 
@@ -48,6 +48,6 @@ pub fn get_amounts_1_from_liquidity(
 ) -> u64 {
     let difference = sqrt_price_upper - sqrt_price_lower;
 
-    let amount_1 = (liquidity * diff) / Q64;
+    let amount_1 = (liquidity * difference) / Q64;
     return amount_1 as u64;
 }

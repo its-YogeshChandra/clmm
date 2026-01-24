@@ -11,7 +11,7 @@ use crate::states::Position;
 //files
 #[derive(Accounts)]
 #[instruction(tick_lower: i32, tick_upper: i32)]
-pub struct Open_Position<'info> {
+pub struct OpenPosition<'info> {
     //signer for the value
     #[account(mut)]
     pub signer: Signer<'info>,
@@ -27,7 +27,7 @@ pub struct Open_Position<'info> {
     pub position: Account<'info, Position>,
 }
 
-impl<'info> Open_Position<'info> {
+impl<'info> OpenPosition<'info> {
     pub fn handler(&mut self, tick_lower: i32, tick_upper: i32) -> Result<()> {
         let position = &mut self.position;
         position.pool_id = self.pool_state_account.key();

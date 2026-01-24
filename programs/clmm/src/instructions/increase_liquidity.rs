@@ -68,7 +68,7 @@ pub struct IncreaseLiquidity<'info> {
 //handle
 impl<'info> IncreaseLiquidity<'info> {
     pub fn increase_liquidity(
-        mut self,
+        &mut self,
         liquidity: u128,
         token_0_amount: u64,
         token_1_amount: u64,

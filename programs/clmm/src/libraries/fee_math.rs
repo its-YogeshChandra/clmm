@@ -1,6 +1,7 @@
 pub const Q64: u128 = 1u128 << 64;
 use crate::states::Position;
 use crate::states::TickState;
+use crate::states::LpPoolStateShape;
 
 //get the fee growth
 pub fn get_fee_growth_below(

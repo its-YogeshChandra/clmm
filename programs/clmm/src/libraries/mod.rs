@@ -13,4 +13,11 @@ pub use liquidity_math::{
     get_amounts_0_from_liquidity, get_amounts_1_from_liquidity, get_liquidity_from_amount_0,
     get_liquidity_from_amount_1,
 };
-pub use tick_math::get_sqrt_price_at_tick;
+
+pub use tick_math::{get_sqrt_price_at_tick, get_tick_at_sqrt_price};
+
+pub use swap_math::{
+    compute_swap_step, find_next_initialized_tick, get_amount_0_delta, get_amount_1_delta,
+    get_next_sqrt_price_from_input, Q64,
+};
+

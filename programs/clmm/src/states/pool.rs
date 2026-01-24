@@ -4,14 +4,12 @@ use anchor_lang::prelude::*;
 #[account]
 #[derive(InitSpace)]
 pub struct LpPoolStateShape {
-    //mint of both vauts
-    pub usdc_mint: Pubkey,
-    pub wsol_mint: Pubkey,
+    //mint of both vaults
+    pub token_0_mint: Pubkey,
+    pub token_1_mint: Pubkey,
     //vault addresses
-    pub usdc_vault_address: Pubkey,
-    pub sol_vault_address: Pubkey,
-    //mint
-    pub lpmint: Pubkey,
+    pub token_0_vault_address: Pubkey,
+    pub token_1_vault_address: Pubkey,
     //bump
     pub bump: u8,
 
@@ -28,3 +26,4 @@ pub struct LpPoolStateShape {
     pub fee_growth_global_0: u128,
     pub fee_growth_global_1: u128,
 }
+

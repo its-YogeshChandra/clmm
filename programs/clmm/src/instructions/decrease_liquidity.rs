@@ -59,7 +59,7 @@ pub struct DecreaseLiquidity<'info> {
 }
 
 impl<'info> DecreaseLiquidity<'info> {
-    pub fn decrease_liquidity(mut self, liquidity_delta: u128) -> Result<()> {
+    pub fn decrease_liquidity(&mut self, liquidity_delta: u128) -> Result<()> {
         //read from the states
         let current_tick = self.pool_state_account.tick_current;
         let lower_position = self.position.tick_lower;

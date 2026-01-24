@@ -14,3 +14,19 @@ pub enum LiquidityError {
     #[msg("insufficient liquidity")]
     InsufficientLiquidity,
 }
+
+#[error_code]
+pub enum SwapError {
+    #[msg("invalid square root price limit")]
+    InvalidSqrtPriceLimit,
+
+    #[msg("no liquidity available in pool")]
+    NoLiquidity,
+
+    #[msg("swap amount must be greater than zero")]
+    ZeroAmount,
+
+    #[msg("output amount less than minimum")]
+    TooLittleOutputReceived,
+}
+
